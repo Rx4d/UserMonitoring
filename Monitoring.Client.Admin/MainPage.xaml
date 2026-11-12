@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Monitoring.Client.Admin"
+    x:Class="Monitoring.Client.Admin.MainPage"
+    x:DataType="local:UserTableViewModel">
+
+    <Grid
+        Padding="15"
+        RowSpacing="15"
+        RowDefinitions="Auto,*,Auto">
+
+        <Label
+            Grid.Row="0"
+            Text="Users list" 
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+
+        <CollectionView
+            Grid.Row="1"
+            EmptyView="Empty"
+            SelectionMode="None"
+            ItemsSource="{Binding Users}"
+            ItemSizingStrategy="MeasureAllItems">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="4" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:UserRowViewModel">
+
+                    <Grid
+                        Padding="0,0,10,0"
+                        ColumnSpacing="15"
+                        ColumnDefinitions="*, Auto">
+                        
+                        <Border Padding="15">
+                            <Grid
+                                ColumnSpacing="16"
+                                ColumnDefinitions="*, *, *"
+                                RowSpacing="8"
+                                RowDefinitions="Auto, Auto, Auto">
+
+                                <Label
+                                    Grid.Row="0" Grid.Column="0"
+                                    Text="{Binding UserContract.Id, StringFormat='Id: {0}'}" />
+
+                                <Label
+                                    Grid.Row="1" Grid.Column="0"
+                                    Text="{Binding UserContract.OnlineDetails.IpAddress, StringFormat='Ip: {0}'}" />
+
+                                <Label
+                                    Grid.Row="0" Grid.Column="1"
+                                    Text="{Binding UserContract.Details.Username, StringFormat='Username: {0}'}" />
+
+                                <Label
+                                    Grid.Row="1" Grid.Column="1"
+                                    Text="{Binding UserContract.Details.MachineName, StringFormat='Device name: {0}'}" />
+
+                                <Label
+                                    Grid.Row="2" Grid.Column="1"
+                                    Text="{Binding UserContract.Details.DomainName, StringFormat='Domain name: {0}'}" />
+
+                                <Label
+                                    Grid.Row="0" Grid.Column="2"
+                                    Text="{Binding LocalFirstSeenAt, StringFormat='First: {0}'}" />
+
+                                <Label
+                                    Grid.Row="1" Grid.Column="2"
+                                    Text="{Binding LocalLastHeartbeatAt, StringFormat='Last: {0}'}" />
+                            </Grid>
+                        </Border>
+
+                        <Button
+                            Grid.Column="1"
+                            VerticalOptions="Center"
+                            Text="Request screenshot"
+                            Command="{Binding RequestScreenshotCommand}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button
+            Grid.Row="2"
+            Text="Refresh"
+            WidthRequest="100"
+            Command="{Binding RefreshCommand}" />
+    </Grid>
+</ContentPage>

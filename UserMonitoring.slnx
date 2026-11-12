@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Monitoring.Client.Admin/Monitoring.Client.Admin.csproj" Id="a5919e63-92ee-42d6-a4f4-89f1920b9090" />
+  <Project Path="Monitoring.Client.Agent/Monitoring.Client.Agent.csproj" Id="24ab38bb-c8c7-4eb2-825c-47ea36b4e5f7" />
+  <Project Path="Monitoring.Identity.Contracts/Monitoring.Identity.Contracts.csproj" />
+  <Project Path="Monitoring.Server/Monitoring.Server.csproj" Id="54185fdb-bf47-4351-9f2b-46aef7803a87" />
+</Solution>
