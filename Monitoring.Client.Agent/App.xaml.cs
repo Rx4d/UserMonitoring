@@ -1,4 +1,6 @@
-﻿namespace Monitoring.Client.Agent;
+﻿using Microsoft.Win32;
+
+namespace Monitoring.Client.Agent;
 
 public sealed partial class App : Application
 {
@@ -19,8 +21,34 @@ public sealed partial class App : Application
         {
             _heartbeatService.Start();
             _screenshotHubService.Subscribe();
+            SetStartup(true);
         });
 
         return new Window(new AppShell());
+    }
+
+    private static void SetStartup(bool enable)
+    {
+        const string appName = "Monitoring.Client.Agent";
+        const string runKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+
+        try
+        {
+            using var key = Registry.CurrentUser.OpenSubKey(runKey, true);
+            if (key is null) return;
+
+            if (enable && !string.IsNullOrEmpty(Environment.ProcessPath))
+            {
+                key.SetValue(appName, $"\"{Environment.ProcessPath}\"");
+            }
+            else
+            {
+                key.DeleteValue(appName, throwOnMissingValue: false);
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex.ToString());
+        }
     }
 }
