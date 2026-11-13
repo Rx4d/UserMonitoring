@@ -30,16 +30,11 @@ public sealed partial class AgentRegistrationViewModel(AgentRegistrationService 
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(ex);
-            await DisplayAlertAsync("Agent registration failed.");
+            await Shell.Current.CurrentPage.DisplayAlertAsync("!", "Agent registration failed.", "OK");
         }
         finally
         {
             IsBusy = false;
         }
-    }
-
-    private static Task DisplayAlertAsync(string message)
-    {
-        return Shell.Current.CurrentPage.DisplayAlertAsync("!", message, "OK");
     }
 }
