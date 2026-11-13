@@ -5,6 +5,8 @@ namespace Monitoring.Client.Agent;
 
 public sealed class AgentHeartbeatService(HubConnection connection, AgentRegistrationService registrationService) : IAsyncDisposable
 {
+    private readonly TimeSpan _heartbeatInterval = TimeSpan.FromSeconds(5);
+
     private CancellationTokenSource? _cts;
     private Task? _worker;
 
@@ -58,7 +60,7 @@ public sealed class AgentHeartbeatService(HubConnection connection, AgentRegistr
                     await connection.InvokeAsync("Heartbeat", AgentIdentity.GetOrCreateId(), cancellationToken);
                 }
 
-                await Task.Delay(TimeSpan.FromSeconds(10), cancellationToken);
+                await Task.Delay(_heartbeatInterval, cancellationToken);
             }
             catch (OperationCanceledException)
             {
